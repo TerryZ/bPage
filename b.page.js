@@ -8,7 +8,7 @@
  * 
  * 更新记录：
  * 2015.09.09 - 解决pageSize=undefined的问题
- * 2015.10.8  - 解决每页记录数下拉选中的值的问题；
+ * 2015.10.08 - 解决每页记录数下拉选中的值的问题；
  *            - 增加部分初始参数从 data- 属性中获取；
  * 2016.04.28 - 增加异步分页后的回调方法，并在分页处理完成后执行该回调方法
  * 2016.07.10 - 重构代码
@@ -36,6 +36,8 @@
         "pageSizeMenu"   : [10,20,50,100],
         //业务参数集，参数为function，function的返回值必须为Object格式：{a:1,b:2,……}
         "params"         : undefined,
+        //自定义样式
+        "className"      : undefined,
         //异步处理分页
         "asyncLoad"      : false,
         //异步处理对象容器，支持使用jquery表达式
@@ -44,7 +46,7 @@
         //是否使用服务端返回页面的形式
         //该参数仅在异步处理模式下有效（asyncLoad = true）
         "serverSidePage" : false,
-        //异步自定义处理回调，将在ajax读取到json数据后，提供给
+        //异步数据模式自定义处理回调，ajax请求服务端并返回json数据后，可使用数据进行自定义页面渲染
         "render"         : undefined,
         //分页跳转URL
         "url"            : '',
@@ -55,7 +57,7 @@
 	/**
 	 * 模板
 	 */
-	var template = '<div class="pagination bPage pagination-right">' + 
+	var template = '<div class="pagination bPage bPageRight">' + 
 		 '<ul>' + 
 		 '<li id="bPageList" class="disabled bPageList"><a>每页 <select id="bPageDropList"></select> 条</a></li>' + 
 		 '<li id="bPageInfo" class="disabled bPageInfo"><a></a></li>' + 
@@ -112,6 +114,7 @@
 		var self = this,p = this.p,elem = this.$container;
 		var htmlstr = template;
 		$(elem).append(htmlstr);
+		if(p.className) $('div.bPage',elem).addClass(p.className);
 		
 		//设置分页设置每页显示条数的下拉列表
 		if(p.pageSizeMenu && $.isArray(p.pageSizeMenu) && p.pageSizeMenu.length > 0){
