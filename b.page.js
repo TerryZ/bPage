@@ -43,6 +43,8 @@
         //异步处理对象容器，支持使用jquery表达式
         //服务端返回页面模式使用
         "asyncTarget"    : 'body',
+        //异步提交方式，默认POST
+        "asyncType"      : 'POST',
         //是否使用服务端返回页面的形式
         //该参数仅在异步处理模式下有效（asyncLoad = true）
         "serverSidePage" : false,
@@ -60,7 +62,7 @@
 	var template = '<div class="pagination bPage bPageRight">' + 
 		 '<ul>' + 
 		 '<li id="bPageList" class="disabled bPageList"><a>每页 <select id="bPageDropList"></select> 条</a></li>' + 
-		 '<li id="bPageInfo" class="disabled bPageInfo"><a></a></li>' + 
+		 '<li id="bPageInfo" class="disabled bPageInfo"><a>&nbsp;</a></li>' + 
 		 '<li id="bPageFirstPage" class="bPageControlButton"><a href="javascript:void(0);">首页</a></li>' + 
 		 '<li id="bPagePreviousPage" class="bPageControlButton"><a href="javascript:void(0);">«</a></li>' + 
 		 '<li id="bPageNextPage" class="bPageControlButton"><a href="javascript:void(0);">»</a></li>' + 
@@ -303,7 +305,7 @@
 					url : p.url,
 					data : param,
 					async : async,
-					type : "POST",
+					type : p.asyncType,
 					dataType : 'text',//使用了html会导致数据读取后，不执行success内部的问题
 					success : function(returnData){
 						if(self.extractPageInfo(returnData)){
@@ -318,7 +320,7 @@
 					url : p.url,
 					data : param,
 					async : async,
-					type : "POST",
+					type : p.asyncType,
 					dataType : 'json',
 					success : function(returnData){
 						self.pageNumber = returnData.pageNumber;
