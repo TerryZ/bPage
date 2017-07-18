@@ -27,6 +27,9 @@ div.bPage li.bPageList select{
 	padding: 0px;
 	margin-top: -2px;
 	display: inline-block;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
 }
 div.bPage.bPageRight{
 	text-align: right;

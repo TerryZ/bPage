@@ -4,6 +4,8 @@
  * author : Terry
  * created : 2015.08.18
  * 
+ * version : 1.1
+ * 
  * 基于bootstrap风格，可静态页面跳转也可异步页面处理的独立分页插件
  * 
  * 更新记录：
@@ -11,10 +13,12 @@
  * 2015.10.08 - 解决每页记录数下拉选中的值的问题；
  *            - 增加部分初始参数从 data- 属性中获取；
  * 2016.04.28 - 增加异步分页后的回调方法，并在分页处理完成后执行该回调方法
- * 2016.07.10 - 重构代码
+ * 2017.07.10 - 重构代码
  *              解决异步模式下首次不加载的问题
  *              解决异步模式下（服务端页面模式）参数提取的问题，开发者在服务端返回的页面中必须按要求设置分页信息内容
  *              增加异步模式下自定义ajax返回后的处理
+ * 2017.07.17 - 增加分页信息统一刷新内部方法
+ *              去除totalPage参数的显式设置，修改为程序根据totalRow和pageSize进行计算，后续程序不再需要初始化该字段
  */
 !function ($) {
 	"use strict";
@@ -28,8 +32,6 @@
         "pageNumber"     : 1,
         //总记录个数
         "totalRow"       : 0,
-        //总页数
-        "totalPage"      : 1,
         //显示页码个数，建议使用奇数
         "pageBarSize"    : 5,
         //每页显示记录数设置
@@ -77,13 +79,12 @@
 		this.p = p;
 		this.pageNumber = Number(p.pageNumber);
 		this.pageSize = Number(p.pageSize);
-		this.totalPage = Number(p.totalPage);
 		this.totalRow = Number(p.totalRow);
 	};
 	/**
 	 * 插件常量
 	 */
-	bPage.version = '1.0';
+	bPage.version = '1.1';
 	/**
 	 * 绑定事件的名称，使用了bPage的命名空间
 	 */
@@ -101,10 +102,6 @@
 	 * 隐藏域中设置的每页记录数的ID
 	 */
 	bPage.hiddenPageSizeId = 'bPagePageSize';
-	/**
-	 * 隐藏域中设置的总页数的ID
-	 */
-	bPage.hiddenTotalPageId = 'bPageTotalPage';
 	/**
 	 * 隐藏域中设置的总行数的ID
 	 */
@@ -135,9 +132,21 @@
 		if(p.asyncLoad) this.pageSwitch(1);
 	};
 	/**
+	 * 更新分页信息
+	 */
+	bPage.prototype.updatePageInfo = function(){
+		if($.type(this.pageNumber) == 'undefined' || $.type(this.pageNumber) != 'number' || this.pageNumber <= 0)
+			this.pageNumber = defaults.pageNumber;
+		if($.type(this.pageSize) == 'undefined' || $.type(this.pageSize) != 'number' || this.pageSize <= 0)
+			this.pageSize = defaults.pageSize;
+		if($.type(this.totalRow) != 'undefined' && $.type(this.totalRow) == 'number')
+			this.totalPage = Math.ceil(this.totalRow / this.pageSize);
+	};
+	/**
 	 * 数据填充
 	 */
 	bPage.prototype.populate = function(){
+		this.updatePageInfo();
 		var self = this, elem = this.$container, p = this.p, pNum = this.pageNumber;
 		var _class, _start, _end, _half=Math.floor(p.pageBarSize/2);
 		
@@ -265,16 +274,14 @@
 		});
 		var pNum = $('#' + bPage.hiddenPageNumberId,$(box)).val();
 		var pSize = $('#' + bPage.hiddenPageSizeId,box).val();
-		var tPage = $('#' + bPage.hiddenTotalPageId,box).val();
 		var tRow = $('#' + bPage.hiddenTotalRowId,box).val();
-		if(!pNum || !pSize || !tPage || !tRow){
+		if(!pNum || !pSize || !tRow){
 			done = false;
 			console.error(errorMsg);
 		}else{
 			try {
 				if(pNum) this.pageNumber = Number(pNum);
 				if(pSize) this.pageSize = Number(pSize);
-				if(tPage) this.totalPage = Number(tPage);
 				if(tRow) this.totalRow = Number(tRow);			
 			} catch (e) {
 				done = false;
@@ -325,7 +332,6 @@
 					success : function(returnData){
 						self.pageNumber = returnData.pageNumber;
 						self.pageSize = returnData.pageSize;
-						self.totalPage = returnData.totalPage;
 						self.totalRow = returnData.totalRow;
 						if(p.render && $.isFunction(p.render)) p.render(returnData);
 						if(p.callback && $.isFunction(p.callback)) p.callback(param);
@@ -347,9 +353,6 @@
 			var str = p.url + '?1=1';
 			str += '&pageNumber=' + pNum;
 			str += '&pageSize=' + this.pageSize;
-			//总页数、总记录通常是由后台传递给前台，前台没必要传递给后台
-			//str += '&totalRow=' + p.totalRow;
-			//str += '&totalPage=' + p.totalPage;
 			str += this.buildParamsStr(pNum);
 		}else{
 			str = 'javascript:void(0);';
@@ -395,7 +398,6 @@
 			if($.isPlainObject(params)) data.p = params;
 			data.pageNumber = params.pageNumber;
 			data.pageSize = params.pageSize;
-			data.totalPage = params.totalPage;
 			data.totalRow = params.totalRow;
 			if(data) data.pageSwitch();
 		});
