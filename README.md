@@ -9,7 +9,7 @@ Explorer on
 
 - [中文官网](https://terryz.oschina.io/bpage/index.html)
 
-the Vue version: [v-page](https://github.com/TerryZ/v-page)
+the VueJS version: [v-page](https://github.com/TerryZ/v-page)
 
 ### If you think the project is also good, please add a Star to the project to support the work of the author, Thank you
 
