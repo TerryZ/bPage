@@ -7,12 +7,14 @@ Explorer on
 
 - [English official site](https://terryz.github.io/bpage/index.html)
 
-- [中文官网](https://terryz.oschina.io/bpage/index.html)
+- [中文官网](https://terryz.oschina.io/bpage/index.html
+
+the Vue version: [v-page]()
 
 ### If you think the project is also good, please add a Star to the project to support the work of the author, Thank you
 
 plugin preview  
-![bPage](https://terryz.github.io/image/bPage.png)
+![bPage](https://github.com/TerryZ/v-page)
 
 ## Key Features
 
