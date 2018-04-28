@@ -7,7 +7,7 @@ Explorer on
 
 - [English official site](https://terryz.github.io/bpage/index.html)
 
-- [中文官网](https://terryz.oschina.io/bpage/index.html)
+- [中文官网](https://terryz.gitee.io/bpage/index.html)
 
 the VueJS version: [v-page](https://github.com/TerryZ/v-page)
 
