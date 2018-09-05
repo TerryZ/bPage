@@ -3,7 +3,7 @@ Based on bootstrap style, static page jump can also be asynchronous page process
 
 <br><br>
 
-## Docs、Demo、Guide
+## Demos and Documentation
 
 Explorer on 
 
@@ -15,10 +15,6 @@ the VueJS version: [v-page](https://github.com/TerryZ/v-page)
 
 <br><br>
 
-*plugin preview*
-
-![bPage](https://terryz.github.io/image/bPage.png)
-
 ## Key Features
 
 <ul>
@@ -29,3 +25,9 @@ the VueJS version: [v-page](https://github.com/TerryZ/v-page)
 </ul>
 
 **If you think this project is helpful, please star it.**
+
+<br><br>
+
+## plugin preview
+
+![bPage](https://terryz.github.io/image/bPage.png)
