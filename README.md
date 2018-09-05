@@ -28,6 +28,6 @@ the VueJS version: [v-page](https://github.com/TerryZ/v-page)
 
 <br><br>
 
-## plugin preview
+## Plugin preview
 
 ![bPage](https://terryz.github.io/image/bPage.png)
