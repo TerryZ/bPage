@@ -7,7 +7,7 @@ Based on bootstrap style, static page jump can also be asynchronous page process
 
 Explorer on 
 
-- [English official site](https://terryz.github.io/bpage/index.html)
+- [English official site](https://terryz.github.io/docs-jq/page)
 
 - [中文官网](https://terryz.gitee.io/bpage/index.html)
 
